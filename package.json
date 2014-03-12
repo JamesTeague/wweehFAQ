@@ -1,0 +1,16 @@
+{
+	"name": "FAQ",
+	"description": "WWEEH FAQ",
+	"author": "James Teague <james@hatchlings.com",
+	"dependencies": {
+		"express": "",
+		"firebase": "",
+		"firebase-token-generator": "",
+		"underscore": "",
+		"request": "",
+		"hbs": "",
+		"moment": "",
+	 	"stripe": "",
+	 	"sendgrid": ""
+	}
+}
