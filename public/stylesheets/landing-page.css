@@ -1,0 +1,86 @@
+html, body{
+  height: 100%;
+}
+body{
+  background-image: url("/Users/JT/Code/wweehFAQ/public/images/background.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+#logo {
+  text-align: center;
+}
+#transparent {
+  margin-right: 10%;
+  margin-left: 10%;
+  background:rgba(255, 255, 255, 0.3);
+  min-height: 100%;
+  top: 0;
+  
+}
+h3 {
+  font-size: 30pt;
+  text-align: center;
+  color: white;
+  font-family: "Nunito";
+}
+
+#searchbar {
+  width: 80%;
+  margin: auto;
+}
+#question {
+  width: 787px;
+  height: 21px;
+  font-size: 15pt;
+  padding: 3px;
+  padding-left: 10px;
+
+}
+#category-container {
+  width: 80%;
+  margin: auto;
+}
+#Topics {
+  display: inline-block;
+  width: 145px;
+  float: left;
+}
+#QandA {
+  /*Position may need to be determined by JavaScript.
+   *Depending on which one of the elements is selected,
+   *that will determine where the top-left corner of the div
+   *should be place. Height should be the only variable.
+   */
+  padding: 7px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  min-height: 350px;
+  width: 644px;
+
+}
+.navigation {
+  font-family: "Nunito";
+  color: white;
+  font-size: 13pt;
+  padding: 2px;
+  padding-left: 5px;
+}
+.ReadText {
+  font-family: "Nunito";
+  color: white;
+  font-size: 18pt;
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+.selected {
+  color: #8CC63F;
+  background: rgba(255, 255, 255, 0.9);
+}
+/*Should handle all browsers*/
+::-webkit-input-placeholder {font-family: "Nunito"; font-weight: 300; font-size: 12pt;}
+::-moz-placeholder {font-family: "Nunito"; font-size: 12pt;} /* firefox 19+ */
+:-ms-input-placeholder {font-family: "Nunito"; font-size: 12pt;} /* ie */
+input:-moz-placeholder {font-family: "Nunito"; font-size: 12pt;}
+  
