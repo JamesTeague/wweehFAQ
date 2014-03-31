@@ -7,15 +7,14 @@
 
 	<title>Support Center</title>
 
+	<!--JQuery Source-->
 	<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-
-	
 	<!-- Custom Google Web Font -->
 	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
-
 	<!-- Add custom CSS here -->
 	<link type="text/css" href="/Users/JT/Code/wweehFAQ/public/stylesheets/landing-page.css" rel="stylesheet">
-	
+	<!--Handlebars.js Source-->
+	<script type="text/javascript" src="/Users/JT/Code/wweehFAQ/public/javascripts/handlebars-v1.3.0.js"></script>
 
 	<script type="text/javascript">
 	var GameOutput = "Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games ";
@@ -39,7 +38,7 @@
 	</script>
 	<div id="transparent">
 		<div id="logo"><img src="/Users/JT/Code/wweehFAQ/public/images/logo.png"></div>
-		<!--h3 tag is overwritten in CSS-->
+		<!--h3 tag is overwritten in the CSS-->
 		<h3>Support Center</h3>
 		<div id="searchbar">
 			<input type="text" id="question" placeholder="Ask a question..." >
@@ -52,7 +51,11 @@
 				<div class="navigation" id="Troubleshooting" onclick="change(this.id)">Troubleshooting</div>
 				<div class="navigation" id="Purchases" onclick="change(this.id)">Purchases</div>
 			</div>
-			<div id="QandA" class="floaters"></div>
+			<div id="QandA" class="floaters">
+				<script id="question-template" type="text/x-handlebars-template">
+				
+				</script>
+			</div>
 			<div style="clear:both;"></div>
 		</div>
 	</div>
