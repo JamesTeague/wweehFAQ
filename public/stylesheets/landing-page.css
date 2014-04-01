@@ -2,7 +2,7 @@ html, body{
   height: 100%;
 }
 body{
-  background-image: url("/Users/JT/Code/wweehFAQ/public/images/background.png");
+  background-image: url("/images/background.png");
   background-size: 100%;
   background-repeat: no-repeat;
   margin: 0;

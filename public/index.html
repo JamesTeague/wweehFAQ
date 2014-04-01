@@ -7,37 +7,48 @@
 
 	<title>Support Center</title>
 
+	<!--Firebase Source-->
+	<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
 	<!--JQuery Source-->
 	<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
 	<!-- Custom Google Web Font -->
 	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
 	<!-- Add custom CSS here -->
-	<link type="text/css" href="/Users/JT/Code/wweehFAQ/public/stylesheets/landing-page.css" rel="stylesheet">
+	<link type="text/css" href="/stylesheets/landing-page.css" rel="stylesheet">
 	<!--Handlebars.js Source-->
-	<script type="text/javascript" src="/Users/JT/Code/wweehFAQ/public/javascripts/handlebars-v1.3.0.js"></script>
-
-	<script type="text/javascript">
-	var GameOutput = "Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games Games ";
-	var TroubleshootingOutput = "Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems Problems ";
-	var PurchasesOutput = "Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money Money ";
-	</script>
-
+	<script type="text/javascript" src="/javascripts/handlebars-v1.3.0.js"></script>
 </head>
 
 <body>
 	<script type="text/javascript">
+		var f = new Firebase('https://faq.firebaseio.com/wweeh');
 
-		function change(signal){
-			$(".navigation.selected").removeClass("selected");
-			$("#"+signal).addClass("selected");
-			$("#QandA").text(window[signal+"Output"]);
-		}
 		$(function(){
 			change("Game");
+			var source = $("#FAQ-template").html();
+			var template = Handlebars.compile(source);
+
+			f.child("Purchases").once('value', function(s) {
+				$("#QandA").html(template({
+					questions: s.val()
+				}));
+			})
 		})
+
+		function change(signal){
+				$(".navigation.selected").removeClass("selected");
+				$("#"+signal).addClass("selected");
+				$("#QandA").text(window[signal+"Output"]);
+
+				f.child(signal).once('value', function(s) {
+				$("#QandA").html(template({
+					questions: s.val()
+				}));
+			})
+			}
 	</script>
 	<div id="transparent">
-		<div id="logo"><img src="/Users/JT/Code/wweehFAQ/public/images/logo.png"></div>
+		<div id="logo"><img src="/images/logo.png"></div>
 		<!--h3 tag is overwritten in the CSS-->
 		<h3>Support Center</h3>
 		<div id="searchbar">
@@ -52,13 +63,18 @@
 				<div class="navigation" id="Purchases" onclick="change(this.id)">Purchases</div>
 			</div>
 			<div id="QandA" class="floaters">
-				<script id="question-template" type="text/x-handlebars-template">
 				
-				</script>
 			</div>
 			<div style="clear:both;"></div>
 		</div>
 	</div>
+	<!--Starting Templates-->
+	<script id="FAQ-template" type="text/x-handlebars-template">
+		{{#each questions}}
+		<div class="question">{{this.question}}</div>
+		<div class="answer">{{{this.answer}}}</div>
+		{{/each}}
+	</script>
 </body>
 
 </html>
