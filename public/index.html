@@ -6,13 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>Support Center</title>
-
+	<!--Underscore.js Source-->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 	<!--Firebase Source-->
 	<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.6/firebase.js'></script>
 	<!--JQuery Source-->
-	<script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+	<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
 	<!-- Custom Google Web Font -->
-	<link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
 	<!-- Add custom CSS here -->
 	<link type="text/css" href="/stylesheets/landing-page.css" rel="stylesheet">
 	<!--Handlebars.js Source-->
@@ -24,31 +25,105 @@
 		var f = new Firebase('https://faq.firebaseio.com/wweeh');
 
 		$(function(){
-			change("Game");
+			
 			var source = $("#FAQ-template").html();
-			var template = Handlebars.compile(source);
+			window.template = Handlebars.compile(source);
 
-			f.child("Purchases").once('value', function(s) {
+			f.child("Game").once('value', function(s) {
 				$("#QandA").html(template({
 					questions: s.val()
 				}));
 			})
-		})
-
-		function change(signal){
+			
+			window.change = function(signal){
 				$(".navigation.selected").removeClass("selected");
 				$("#"+signal).addClass("selected");
 				$("#QandA").text(window[signal+"Output"]);
 
 				f.child(signal).once('value', function(s) {
-				$("#QandA").html(template({
-					questions: s.val()
-				}));
-			})
+					console.log(s.val());
+					$("#QandA").html(template({
+						questions: s.val()
+					}));
+				});
 			}
+
+			$("#question").keyup(function(){
+				search();
+			});
+		});
+
+		
+
+		function display(id){
+			if($("#"+id).hasClass("expanded")){
+				$(("#"+id) + " > div.answer").slideUp();
+				$("#"+id).removeClass("expanded");
+			}
+			else{
+				$(".expanded > div.answer").slideUp();
+				$(".expanded").toggleClass("expanded");
+				$("#"+id).addClass("expanded");
+				$(("#"+id) + " > div.answer").slideDown();
+			}
+		}
+
+		function search() {
+			console.time("Search");
+			var add = false;
+			var qs = [];
+			var query = ($("#question").val()).toLowerCase().trim();
+			var text = query.split(" ");
+
+			f.once('value', function(s){
+				_.each(s.val(), function(c){
+					_.each(c, function(o){
+						var q = ((o.question).toLowerCase());
+						var a = ((o.answer).toLowerCase());
+						for (searchterm in text){
+							if (q.indexOf(text[searchterm]) != -1 || a.indexOf(text[searchterm]) != -1){
+								add = true;
+							}
+							else{
+								add = false;
+								break;
+							}
+						}
+						if(add){
+							if(query.length > 0){
+								var r = "(^| )(" + text.join('|') + ")( |$|\\.)";
+								o.answer = o.answer.replace(/ /g, "  ");
+								console.log(o.answer);
+								o.question = (o.question).replace(new RegExp("(" + text.join("|") + ")", "gi"), "<span class='highlighted'>$1</span>");
+								o.answer = (o.answer).replace(new RegExp(r, "gi"), "$1<span class='highlighted'>$2</span>$3");
+								console.log(r);
+							}
+							qs.push(o);
+						}
+					})
+				})
+				$("#QandA").html(template({ questions: qs }));
+				if (query.length > 0) {
+					$(".navigation.selected").removeClass("selected");
+					$(".question").parent().addClass("expanded");
+					$((".expanded") + " > div.answer").show();
+				} 
+				else {
+					$("#Game").addClass("selected");
+					$(".question").parent().removeClass("expanded");
+					$((".expanded") + " > div.answer").hide();
+				}
+
+			})
+
+
+			
+			console.timeEnd("Search");
+		}
+
 	</script>
 	<div id="transparent">
-		<div id="logo"><img src="/images/logo.png"></div>
+		<div id="logo"><img id="logoPic" src="/images/logo.png"></div>
 		<!--h3 tag is overwritten in the CSS-->
 		<h3>Support Center</h3>
 		<div id="searchbar">
@@ -58,22 +133,26 @@
 		<div id="category-container">
 			<div id="Topics">
 				<div class="ReadText">Categories</div>
-				<div class="navigation selected" id="Game" onclick="change(this.id)">Game</div>
-				<div class="navigation" id="Troubleshooting" onclick="change(this.id)">Troubleshooting</div>
-				<div class="navigation" id="Purchases" onclick="change(this.id)">Purchases</div>
+				<div class="navigation selected" id="Game" onclick="window.change(this.id)">Game</div>
+				<div class="navigation" id="Troubleshooting" onclick="window.change(this.id)">Troubleshooting</div>
+				<div class="navigation" id="Purchases" onclick="window.change(this.id)">Purchases</div>
 			</div>
-			<div id="QandA" class="floaters">
-				
-			</div>
+			<div id="QandA" class="floaters"></div>
 			<div style="clear:both;"></div>
 		</div>
 	</div>
 	<!--Starting Templates-->
 	<script id="FAQ-template" type="text/x-handlebars-template">
 		{{#each questions}}
-		<div class="question">{{this.question}}</div>
-		<div class="answer">{{{this.answer}}}</div>
+		<div id={{@index}}>
+			<div class="question" onclick="display($(this).parent().attr('id'))">{{{this.question}}}</div>
+			<div class="answer">{{{this.answer}}}</div>
+		</div>
 		{{/each}}
+	</script>
+
+	<script type="text/javascript">
+
 	</script>
 </body>
 

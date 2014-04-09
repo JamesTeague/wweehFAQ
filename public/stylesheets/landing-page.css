@@ -1,10 +1,11 @@
 html, body{
   height: 100%;
+  background-image: url("/images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 body{
-  background-image: url("/images/background.png");
-  background-size: 100%;
-  background-repeat: no-repeat;
   margin: 0;
   padding: 0;
 }
@@ -12,8 +13,8 @@ body{
   text-align: center;
 }
 #transparent {
-  margin-right: 10%;
-  margin-left: 10%;
+  width: 90%;
+  margin: auto;
   background:rgba(255, 255, 255, 0.3);
   min-height: 100%;
   top: 0;
@@ -27,11 +28,12 @@ h3 {
 }
 
 #searchbar {
-  width: 80%;
+  width: 95%;
   margin: auto;
 }
 #question {
-  width: 787px;
+  width: 92%;
+  margin: auto;
   height: 21px;
   font-size: 15pt;
   padding: 3px;
@@ -39,25 +41,21 @@ h3 {
 
 }
 #category-container {
-  width: 80%;
+  width: 95%;
   margin: auto;
 }
 #Topics {
   display: inline-block;
-  width: 145px;
+  width: 20%;
   float: left;
 }
 #QandA {
-  /*Position may need to be determined by JavaScript.
-   *Depending on which one of the elements is selected,
-   *that will determine where the top-left corner of the div
-   *should be place. Height should be the only variable.
-   */
   padding: 7px;
   display: inline-block;
   background: rgba(255, 255, 255, 0.9);
   min-height: 350px;
-  width: 644px;
+  width: 72%;
+  /*max-width: 70%;*/
 
 }
 .navigation {
@@ -66,6 +64,7 @@ h3 {
   font-size: 13pt;
   padding: 2px;
   padding-left: 5px;
+  cursor: pointer;
 }
 .ReadText {
   font-family: "Nunito";
@@ -73,11 +72,41 @@ h3 {
   font-size: 18pt;
   padding-left: 5px;
   padding-bottom: 5px;
+  width: 20%;
 }
 .selected {
   color: #8CC63F;
   background: rgba(255, 255, 255, 0.9);
 }
+
+.question {
+  color: #8CC63F;
+  font-family: "Nunito";
+  font-weight: 300;
+  font-size: 10pt;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.answer {
+  font-family: "Nunito";
+  font-weight: 300;
+  font-size: 10pt;
+  color: black;
+  border-left: solid;
+  border-width: 2px;
+  margin-left: 10px;
+  padding-left: 5px; 
+  display: none;
+
+}
+img:not(#logoPic) {
+  width: 300px;
+}
+.highlighted {
+  background-color: yellow;
+}
+
+
 /*Should handle all browsers*/
 ::-webkit-input-placeholder {font-family: "Nunito"; font-weight: 300; font-size: 12pt;}
 ::-moz-placeholder {font-family: "Nunito"; font-size: 12pt;} /* firefox 19+ */
